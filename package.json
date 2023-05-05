@@ -1,0 +1,18 @@
+{
+  "name": "bitninja-webhook",
+  "version": "1.0.2",
+  "description": "Express based ustom webhook for BitNinja Alerts",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/web-api": "^6.8.1",
+    "discord.js": "^14.10.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
