@@ -23,9 +23,10 @@ Webhook service written in NodeJS with Express for BitNinja Alerts.
 
 1. Visit [BitNinja Alerts](https://console.bitninja.io/alerts)
 2. Add your webhook URLs such as
- - http://<ip-address/domain>:8012/malware-alert?key=<your-api-key>
- - http://<ip-address/domain>:8012/waf-alert?key=<your-api-key>
- - http://<ip-address/domain>:8012/dos-alert?key=<your-api-key>
+ - ```http://<ip-address/domain>:8012/malware-alert?key=<your-api-key>```
+ - ```http://<ip-address/domain>:8012/waf-alert?key=<your-api-key>```
+ - ```http://<ip-address/domain>:8012/dos-alert?key=<your-api-key>```
+ 
  (Optional) You can of course use domains as well for prettier webhook URLs.
 
 ## Support
