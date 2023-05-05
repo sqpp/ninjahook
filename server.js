@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
         if (data.alertType == 'malwareCatch') {
             if (discord_key) {
                 const notificationEmbed = new EmbedBuilder ()
-                    .setTitle('Malware Catch')
+                    .setTitle('Malware Alert')
                     .setDescription('The threshold has been reached in the last 30 minutes.')
                     .setColor('#E84545')
                     .addFields(
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
                     .setStyle(ButtonStyle.Link)
                     .setURL(`https://console.bitninja.io/server/${data.serverId}`);
                 const row = new ActionRowBuilder().addComponents(button1, button2)
-                const channel = await client.channels.fetch(process.env.CHANNELID);
+                const channel = await client.channels.fetch(process.env.DISCORD_CH);
                 await channel.send({ embeds: [notificationEmbed], components: [row] });
                 const date = new Date();
                 const isoDate = date.toISOString();
@@ -146,7 +146,7 @@ app.get('/', (req, res) => {
 
                     try {
                         const result = await slack.chat.postMessage({
-                          channel: '#general',
+                          channel: `#${process.env.SLACK_CH}`,
                           text: `Malware Alert on ${data.serverName}`,
                           blocks: blockMessage
                         });
@@ -176,7 +176,7 @@ app.post('/waf-alert', async (req, res) => {
         if (data.alertType === 'wafIncident') {
             if (discord_key) {
                 const notificationEmbed = new EmbedBuilder ()
-                    .setTitle('WAF Rule Triggered')
+                    .setTitle('WAF Alert')
                     .setDescription('The threshold has been reached in the last 30 minutes.')
                     .setColor('#E84545')
                     .addFields(
@@ -198,9 +198,93 @@ app.post('/waf-alert', async (req, res) => {
                     .setURL(`https://console.bitninja.io/server/${data.serverId}`);
 
                 const row = new ActionRowBuilder().addComponents(button1, button2)
-                const channel = await client.channels.fetch('1103643686765592696'); // replace CHANNEL_ID with the ID of the channel you want to send the message to
+                const channel = await client.channels.fetch(process.env.DISCORD_CH); // replace CHANNEL_ID with the ID of the channel you want to send the message to
                 await channel.send({ embeds: [notificationEmbed], components: [row] });
                 res.status(200).json("OK")
+            }
+            if (slackBotToken) {
+                let blockMessage = [
+                        {
+                            "type": "header",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "WAF Alert",
+                                "emoji": true
+                            }
+                        },
+                        {
+                            "type": "divider"
+                        },
+                        {
+                            "type": "section",
+                            "fields": [
+                                {
+                                    "type": "mrkdwn",
+                                    "text": `*ServerID*\n ${data.serverId}`
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": `*Threshold*\n ${data.threshold}`
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": `*ServerName*\n ${data.serverName}`
+                                }
+                            ]
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": ":bitninja: View on BitNinja",
+                                        "emoji": true
+                                    },
+                                    "value": "click_me_123",
+                                    "url": `https://console.bitninja.io/server/${data.serverId}`
+                                },
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": ":whm: View WHM",
+                                        "emoji": true
+                                    },
+                                    "value": "click_me_123",
+                                    "url": `https://${data.serverName}:2087`
+                                }
+                            ]
+                        },
+                        {
+                            "type": "divider"
+                        },
+                        {
+                            "type": "context",
+                            "elements": [
+                                {
+                                    "type": "plain_text",
+                                    "text": `AlertId: ${data.alertId}`,
+                                    "emoji": true
+                                }
+                            ]
+                        }
+                    ]
+
+                    try {
+                        const result = await slack.chat.postMessage({
+                          channel: `#${process.env.SLACK_CH}`,
+                          text: `Malware Alert on ${data.serverName}`,
+                          blocks: blockMessage
+                        });
+                        const date = new Date();
+                        const isoDate = date.toISOString();
+                        console.log(`[` + isoDate + `] Slack Notification | ${data.alertId}`);
+                      } catch (error) {
+                        console.error(error);
+                      }
+                      
             }
         }
         else {
@@ -217,7 +301,7 @@ app.post('/dos-alert', async(req, res) => {
         if (data.alertType === 'dosDetectionIncident') {
             if (discord_key) {
             const notificationEmbed = new EmbedBuilder ()
-                .setTitle('Dos Detection Incident')
+                .setTitle('DoS Alert')
                 .setDescription('The threshold has been reached in the last 30 minutes.')
                 .setColor('#E84545')
                 .addFields(
@@ -240,9 +324,93 @@ app.post('/dos-alert', async(req, res) => {
                 .setURL(`https://console.bitninja.io/server/${data.serverId}`);
 
             const row = new ActionRowBuilder().addComponents(button1, button2)
-            const channel = await client.channels.fetch('1103643686765592696'); // replace CHANNEL_ID with the ID of the channel you want to send the message to
+            const channel = await client.channels.fetch(process.env.DISCORD_CH); // replace CHANNEL_ID with the ID of the channel you want to send the message to
             await channel.send({ embeds: [notificationEmbed], components: [row] });
             res.status(200).json("OK")
+        }
+        if (slackBotToken) {
+            let blockMessage = [
+                    {
+                        "type": "header",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "DoS Alert",
+                            "emoji": true
+                        }
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "section",
+                        "fields": [
+                            {
+                                "type": "mrkdwn",
+                                "text": `*ServerID*\n ${data.serverId}`
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": `*Threshold*\n ${data.threshold}`
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": `*ServerName*\n ${data.serverName}`
+                            }
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": ":bitninja: View on BitNinja",
+                                    "emoji": true
+                                },
+                                "value": "click_me_123",
+                                "url": `https://console.bitninja.io/server/${data.serverId}`
+                            },
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": ":whm: View WHM",
+                                    "emoji": true
+                                },
+                                "value": "click_me_123",
+                                "url": `https://${data.serverName}:2087`
+                            }
+                        ]
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "context",
+                        "elements": [
+                            {
+                                "type": "plain_text",
+                                "text": `AlertId: ${data.alertId}`,
+                                "emoji": true
+                            }
+                        ]
+                    }
+                ]
+
+                try {
+                    const result = await slack.chat.postMessage({
+                      channel: `#${process.env.SLACK_CH}`,
+                      text: `Malware Alert on ${data.serverName}`,
+                      blocks: blockMessage
+                    });
+                    const date = new Date();
+                    const isoDate = date.toISOString();
+                    console.log(`[` + isoDate + `] Slack Notification | ${data.alertId}`);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                  
         }
     }
     else {
