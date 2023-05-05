@@ -1,4 +1,4 @@
-#BitNinja NodeJS Webhook
+# BitNinja NodeJS Webhook
 
 ## Description 
 Webhook service written in NodeJS with Express for BitNinja Alerts.
@@ -28,6 +28,6 @@ Webhook service written in NodeJS with Express for BitNinja Alerts.
  - http://<ip-address/domain>:8012/dos-alert?key=<your-api-key>
  (Optional) You can of course use domains as well for prettier webhook URLs.
 
-##Support
+## Support
 
 Create a GitHub issue for support or for feature requests.
