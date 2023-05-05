@@ -1,15 +1,15 @@
-# BitNinja NodeJS Webhook
+#BitNinja NodeJS Webhook
 
-## Description 
+##Description 
 Webhook service written in NodeJS with Express for BitNinja Alerts.
 
-## Supported Communication Apps
+##Supported Communication Apps
 - Slack
 - Discord
 
-## Setup
+##Setup
 1. Clone repository 
-``git clone https://github.com/sqpp/ninjahook.git``
+`git clone https://github.com/sqpp/ninjahook.git`
 2. Install packages
 ``cd ninjahook && npm install``
 3. Copy .env.example to .env
@@ -19,7 +19,7 @@ Webhook service written in NodeJS with Express for BitNinja Alerts.
 5. Start the app
 ``npm run start``
 
-## BitNinja setup
+##BitNinja setup
 
 1. Visit [BitNinja Alerts](https://console.bitninja.io/alerts)
 2. Add your webhook URLs such as
@@ -28,6 +28,6 @@ Webhook service written in NodeJS with Express for BitNinja Alerts.
  - http://<ip-address/domain>:8012/dos-alert?key=<your-api-key>
  (Optional) You can of course use domains as well for prettier webhook URLs.
 
-## Support
+##Support
 
 Create a GitHub issue for support or for feature requests.
