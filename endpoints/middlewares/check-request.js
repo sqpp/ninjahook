@@ -1,4 +1,4 @@
-const { alertType } = require('../alerts/base-alert')
+const { alertType } = require('../../alerts/base-alert')
 
 
 module.exports = async (req, res, next) => {

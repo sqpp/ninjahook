@@ -2,13 +2,8 @@
 const express = require('express');
 // Load our environment variables
 require('dotenv').config()
-// Our API keys
-const discord_key = process.env.DISCORD_TOKEN
-const { Client } = require('discord.js');
-const client = new Client({
-    intents: []
-});
 
+require('./components/discord');
 //endpoints
 const homeHandler = require('./endpoints/home')
 const alertsHandler = require('./endpoints/alerts')
@@ -21,13 +16,6 @@ const app = express();
 app.use(express.json());
 const port = process.env.PORT || 8012
 
-if (discord_key) {
-    client.on('ready', () => {
-        console.log(`Discord bot ${client.user.tag} has started`);
-    });
-    client.login(discord_key);
-}
-
 // Some standard welcome message on the root URL...
 app.get('/', homeHandler);
 // Creating the '/malware-alert' endpoint with POST request acceptance
@@ -39,8 +27,10 @@ app.post('/dos-alert', checkRequestMiddleware, alertsHandler);
 
 // Start the server
 app.listen(port, (error) => {
-    if (!error)
+    if (!error) {
         console.log(process.env.APP_NAME + " started sucessfully on port " + process.env.PORT)
-    else
+    }
+    else {
         console.log("[ERROR][STARTUP FAILURE]", error)
+    }
 })

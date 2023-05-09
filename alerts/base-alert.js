@@ -1,11 +1,8 @@
-const { Client, ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
+const { ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const discord_key = process.env.DISCORD_TOKEN
 const slackBotToken = process.env.SLACK_TOKEN
-const { WebClient } = require('@slack/web-api');
-const slack = new WebClient(slackBotToken);
-const client = new Client({
-    intents: []
-});
+const slack = require('../components/slack')
+const discord = require('../components/discord')
 
 
 const alertTypes = {
@@ -137,7 +134,7 @@ class BaseAlert {
             .setURL(`https://console.bitninja.io/server/${this.alertData.serverId}`);
 
         const row = new ActionRowBuilder().addComponents(button1, button2)
-        const channel = await client.channels.fetch(process.env.DISCORD_CH); // replace CHANNEL_ID with the ID of the channel you want to send the message to
+        const channel = await discord.channels.fetch(process.env.DISCORD_CH); // replace CHANNEL_ID with the ID of the channel you want to send the message to
         await channel.send({ embeds: [notificationEmbed], components: [row] });
     }
 }
