@@ -8,7 +8,6 @@ require('dotenv').config()
 const key = process.env.WEBHOOK_KEY
 const discord_key = process.env.DISCORD_TOKEN
 const slackBotToken = process.env.SLACK_TOKEN
-console.log(slackBotToken)
 const slack = new WebClient(slackBotToken);
 const { Client, Intents, ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const client = new Client({
